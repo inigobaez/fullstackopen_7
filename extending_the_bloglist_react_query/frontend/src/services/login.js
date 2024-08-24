@@ -5,5 +5,9 @@ const login = (credentials) => {
   const request = axios.post(baseUrl, credentials);
   return request.then((response) => response.data);
 };
+const getAll = () => {
+  const request = axios.get("/api/users");
+  return request.then((response) => response.data);
+};
 
-export default { login };
+export default { login, getAll };

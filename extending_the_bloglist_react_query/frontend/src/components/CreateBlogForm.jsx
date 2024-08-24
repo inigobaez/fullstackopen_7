@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useAddNotification } from "../contexts/notificationContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Button from "react-bootstrap/Button";
 import BlogService from "../services/blogs";
 
 const CreateBlogForm = () => {
@@ -68,7 +69,7 @@ const CreateBlogForm = () => {
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit">Create</button>
+        <Button type="submit">Create</Button>
       </form>
       <br />
     </>

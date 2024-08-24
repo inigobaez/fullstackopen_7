@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import UserContext from "../contexts/userContext";
 import { useAddNotification } from "../contexts/notificationContext";
@@ -8,8 +9,16 @@ import blogService from "../services/blogs";
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const [user, dispatch] = useContext(UserContext);
+  console.log("loginform to / when user", user);
+
   const addNotification = useAddNotification();
 
   const handleLogin = async (event) => {
@@ -30,11 +39,12 @@ const LoginForm = () => {
         message: "user successfully logged in",
         type: "success",
       };
+      navigate("/");
     } catch (error) {
       console.log(error);
       notification = {
         message: "wrong username or password",
-        type: "error",
+        type: "danger",
       };
     }
     addNotification(notification);
@@ -42,7 +52,6 @@ const LoginForm = () => {
   return (
     <>
       <form data-testid="loginForm" onSubmit={handleLogin}>
-        <span>loginform</span>
         <div>
           <label htmlFor="username">Username</label>
           <input

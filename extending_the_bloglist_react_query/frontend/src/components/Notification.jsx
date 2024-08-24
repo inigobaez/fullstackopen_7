@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import Alert from "react-bootstrap/Alert";
 import NotificationContext from "../contexts/notificationContext";
 
 const Notification = () => {
@@ -7,24 +8,8 @@ const Notification = () => {
     return;
   }
   return (
-    <div
-      style={
-        notification.type === "success"
-          ? {
-              color: "green",
-              border: "2px solid green",
-              padding: "5px",
-              margin: "20px",
-            }
-          : {
-              color: "red",
-              border: "2px solid red",
-              padding: "5px",
-              margin: "20px",
-            }
-      }
-    >
-      <span>{notification.message}</span>
+    <div>
+      <Alert variant={notification.type}>{notification.message}</Alert>
     </div>
   );
 };

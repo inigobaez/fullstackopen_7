@@ -27,5 +27,16 @@ const deleteBlog = async (blog) => {
   const response = await axios.delete(url, config);
   return response.data;
 };
+const addComment = (blogId, comment) => {
+  try {
+    //console.log("blogService.addComment", blogId, comment);
+    const config = { headers: { Authorization: token } };
+    const url = `${baseUrl}/${blogId}/comments`;
+    const request = axios.post(url, { comment }, config);
+    return request.then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export default { getAll, create, update, deleteBlog, setToken };
+export default { getAll, create, update, deleteBlog, setToken, addComment };

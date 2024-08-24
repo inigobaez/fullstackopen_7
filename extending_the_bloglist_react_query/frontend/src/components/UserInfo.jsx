@@ -5,7 +5,7 @@ import BlogService from "../services/blogs";
 
 const UserInfo = ({ name }) => {
   const [user, dispatch] = useContext(UserContext);
-
+  const userStyle = { fontStyle: "italic" };
   const handleLogout = () => {
     dispatch({ type: "REMOVE" });
     BlogService.setToken(null);
@@ -13,7 +13,7 @@ const UserInfo = ({ name }) => {
   };
   return (
     <>
-      <span>{`${name} logged in`}</span>
+      <span style={userStyle}>{`${name} logged in`}</span>
       <button type="button" onClick={handleLogout}>
         logout
       </button>

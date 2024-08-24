@@ -1,17 +1,24 @@
 import { useEffect, useRef, useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom";
 import blogService from "./services/blogs";
 
 import UserContext from "./contexts/userContext";
 
+import NavMenu from "./components/NavMenu";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
-import UserInfo from "./components/UserInfo";
-import CreateBlogForm from "./components/CreateBlogForm";
-import Toggable from "./components/Togglable";
-import BlogList from "./components/BlogList";
+import BlogsView from "./components/BlogsView";
+import BlogView from "./components/BlogView";
+import UsersView from "./components/UsersView";
+import UserView from "./components/UserView";
 
 const App = () => {
-  const blogFormRef = useRef();
   const [user, userDispatch] = useContext(UserContext);
 
   const appHeader = user === null ? "Log in to application" : "Blogs";
@@ -27,19 +34,40 @@ const App = () => {
 
   return (
     <>
-      <h2>{appHeader}</h2>
-      <Notification />
-      {user === null ? (
-        <LoginForm />
-      ) : (
-        <>
-          <UserInfo name={user.name} />
-          <Toggable buttonLabel="new Blog" ref={blogFormRef}>
-            <CreateBlogForm />
-          </Toggable>
-          <BlogList user={user} />
-        </>
-      )}
+      <Router>
+        {user !== null && <NavMenu user={user} />}
+
+        <div className="container">
+          <h2>{appHeader}</h2>
+          <Notification />
+          <Routes>
+            <Route
+              path="/blogs/:id"
+              element={user ? <BlogView /> : <Navigate replace to="/login" />}
+            />
+            <Route
+              path="/"
+              element={
+                user ? (
+                  <BlogsView user={user} />
+                ) : (
+                  <Navigate replace to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/users/:id"
+              element={user ? <UserView /> : <Navigate replace to="/login" />}
+            />
+            <Route
+              path="/users"
+              element={user ? <UsersView /> : <Navigate replace to="/login" />}
+            />
+
+            <Route path="/login" element={<LoginForm />} />
+          </Routes>
+        </div>
+      </Router>
     </>
   );
 };
